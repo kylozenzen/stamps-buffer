@@ -13,7 +13,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 
   <style>
@@ -133,18 +133,9 @@
       <!-- Nav -->
       <div style="flex:1;display:flex;flex-direction:column;gap:2px;" id="desktop-nav"></div>
 
-      <!-- Buffer status + bottom actions -->
-      <div style="margin-top:16px;display:flex;flex-direction:column;gap:4px;">
-        <div style="background:#1f1f23;border-radius:8px;padding:10px 12px;border:0.5px solid rgba(255,255,255,0.06);margin-bottom:6px">
-          <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px">
-            <div class="status-dot dot-cyan"></div>
-            <span style="font-size:10px;color:rgba(34,211,238,0.7);font-weight:700;font-family:Space Grotesk,sans-serif">Buffer connected</span>
-          </div>
-          <span style="font-size:11px;color:rgba(250,250,250,0.3);font-family:Space Grotesk,sans-serif">Beta mode</span>
-        </div>
-        <button onclick="syncBuffer()" style="background:transparent;border:none;color:rgba(250,250,250,0.3);font-family:Space Grotesk,sans-serif;font-size:11px;cursor:pointer;padding:6px 8px;display:flex;align-items:center;gap:5px;border-radius:6px;" class="hs">
-          <span class="material-symbols-outlined" style="font-size:13px">sync</span>Sync drafts
-        </button>
+      <!-- Buffer key manager + bottom actions -->
+      <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px;">
+        <div id="buffer-key-manager"></div>
         <button onclick="resetDemo()" style="background:transparent;border:none;color:rgba(250,250,250,0.15);font-family:Space Grotesk,sans-serif;font-size:11px;cursor:pointer;padding:6px 8px;display:flex;align-items:center;gap:5px;border-radius:6px;" class="hs">
           <span class="material-symbols-outlined" style="font-size:13px">refresh</span>Reset demo
         </button>
@@ -179,6 +170,7 @@
 
   <!-- 3. Components -->
   <script src="js/components/modals.js"></script>
+  <script src="js/components/key-manager.js"></script>
 
   <!-- 4. Pages -->
   <script src="js/pages/board.js"></script>
