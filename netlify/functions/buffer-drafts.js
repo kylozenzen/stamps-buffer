@@ -60,7 +60,7 @@ const POSTS_QUERY = `
 const corsHeaders = {
   'Content-Type': 'application/json',
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Stamp-Demo-Key',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Stamp-Demo-Key, X-Buffer-Token',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
 };
 
@@ -69,6 +69,7 @@ exports.handler = async function(event) {
     return { statusCode: 200, headers: corsHeaders, body: '' };
   }
 
+  // ── Lab gate (private demo access code) ──────────────────────────────────────
   const requiredDemoKey = process.env.STAMP_DEMO_KEY;
   if (!requiredDemoKey) {
     return {
@@ -87,12 +88,18 @@ exports.handler = async function(event) {
     };
   }
 
-  const token = process.env.BUFFER_TOKEN;
+  // ── Buffer token resolution ──────────────────────────────────────────────────
+  // The user supplies their own token from the sidebar (preferred). Fall back to
+  // the server-side BUFFER_TOKEN env var so the owner's own connection still works
+  // without entering a key.
+  const userToken = event.headers['x-buffer-token'] || event.headers['X-Buffer-Token'] || '';
+  const token = (userToken && userToken.trim()) || process.env.BUFFER_TOKEN;
+
   if (!token) {
     return {
       statusCode: 503,
       headers: corsHeaders,
-      body: JSON.stringify({ error: 'BUFFER_TOKEN not configured.' }),
+      body: JSON.stringify({ error: 'No Buffer token. Add your Buffer access token in the sidebar, then sync.' }),
     };
   }
 
