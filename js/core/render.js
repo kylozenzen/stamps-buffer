@@ -61,6 +61,9 @@ function render() {
   }
 
   content.scrollTop = 0;
+
+  // Keep the sidebar key manager / last-synced label in sync after any re-render.
+  if (window.bkRender) window.bkRender();
 }
 
 function updateNavTabs() {
@@ -114,7 +117,7 @@ function _stampStatusFromBuffer(bufferStatus) {
 }
 
 function _setSyncButtonsLoading(isLoading) {
-  document.querySelectorAll('[onclick="syncBuffer()"], [onclick="syncBuffer()"]').forEach(function(btn) {
+  document.querySelectorAll('[onclick="syncBuffer()"]').forEach(function(btn) {
     if (!btn.dataset.originalHtml) btn.dataset.originalHtml = btn.innerHTML;
 
     if (isLoading) {
@@ -147,9 +150,19 @@ function _parseFunctionResponse(response) {
 
 function syncBuffer() {
   _setSyncButtonsLoading(true);
+  if (window.bkSetSyncing) window.bkSetSyncing(true);
+
+  var demoKey = (window.StampDemoAccess && window.StampDemoAccess.getKey)
+    ? window.StampDemoAccess.getKey()
+    : (localStorage.getItem('stampDemoKey') || '');
+
+  var bufferToken = (window.bkGetKey ? window.bkGetKey() : '');
 
   fetch('/.netlify/functions/buffer-drafts', {
-    headers: { 'x-stamp-demo-key': (window.StampDemoAccess && window.StampDemoAccess.getKey ? window.StampDemoAccess.getKey() : (localStorage.getItem('stampDemoKey') || '')) }
+    headers: {
+      'x-stamp-demo-key': demoKey,
+      'x-buffer-token': bufferToken
+    }
   })
     .then(_parseFunctionResponse)
     .then(function(data) {
@@ -227,6 +240,7 @@ function syncBuffer() {
     })
     .finally(function() {
       _setSyncButtonsLoading(false);
+      if (window.bkSetSyncing) window.bkSetSyncing(false);
     });
 }
 
