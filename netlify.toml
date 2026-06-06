@@ -1,0 +1,23 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/landing.html"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/app"
+  to = "/"
+  status = 302
+
+[[redirects]]
+  from = "/demo"
+  to = "/"
+  status = 302
+
+[[redirects]]
+  from = "/index-old.html"
+  to = "/"
+  status = 302

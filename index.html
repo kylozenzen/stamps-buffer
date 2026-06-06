@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Stamp — Client approvals for Buffer drafts</title>
+  <meta name="description" content="Stamp is a lightweight approval room for Buffer users. Sync drafts, assign a client, share one review link, and get final sign-off with an owner code.">
+
+  <meta property="og:title" content="Stamp — Client approvals for Buffer drafts">
+  <meta property="og:description" content="Sync Buffer drafts, send one approval room, and get posts stamped without client logins.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Stamp for Buffer users">
+  <meta property="og:url" content="https://stamps-buffer.netlify.app/">
+  <meta property="og:image" content="https://stamps-buffer.netlify.app/stamp-link-preview.png">
+  <meta property="og:image:secure_url" content="https://stamps-buffer.netlify.app/stamp-link-preview.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Stamp approval room preview showing Buffer drafts, client comments, and owner-code sign-off.">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Stamp — Client approvals for Buffer drafts">
+  <meta name="twitter:description" content="Sync Buffer drafts, share one approval room, and get owner-code final sign-off.">
+  <meta name="twitter:image" content="https://stamps-buffer.netlify.app/stamp-link-preview.png">
+  <meta name="twitter:image:alt" content="Stamp approval room preview showing Buffer drafts, client comments, and owner-code sign-off.">
+
+  <meta name="theme-color" content="#101114">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="landing.css">
+</head>
+<body>
+  <form name="stamp-beta-waitlist" netlify netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="stamp-beta-waitlist">
+    <input name="bot-field">
+    <input name="name">
+    <input name="email">
+    <input name="role">
+    <textarea name="approval_pain"></textarea>
+  </form>
+
+  <header class="nav">
+    <a class="brand" href="#top" aria-label="Stamp home">
+      <span class="brand-mark"><span class="material-symbols-outlined fill-icon">verified</span></span>
+      <span><strong>Stamp</strong><em>for Buffer users</em></span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#how">How it works</a>
+      <a href="#preview">Preview</a>
+      <a href="#beta">Join beta</a>
+    </nav>
+    <a class="nav-cta" href="#beta">Get beta access</a>
+  </header>
+
+  <main id="top">
+    <section class="hero section-pad">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> Lightweight approvals for Buffer workflows</p>
+        <h1>Client approvals for Buffer drafts.</h1>
+        <p class="hero-sub">Sync your Buffer drafts. Share one approval room. Let the team comment — and give the owner a private code for final sign-off.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#beta">Join the private beta</a>
+          <a class="btn btn-secondary" href="#preview">See how it works</a>
+        </div>
+        <div class="proof-row">
+          <div><strong>Drafts</strong><span>pulled from Buffer</span></div>
+          <div><strong>1 link</strong><span>for client review</span></div>
+          <div><strong>Code</strong><span>for final stamp</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-label="Stamp app preview">
+        <div class="window chrome board-window">
+          <div class="chrome-top"><i></i><i></i><i></i><span>Stamp approval board</span></div>
+          <div class="app-grid">
+            <aside class="mini-sidebar">
+              <div class="mini-logo"><span></span><b>Stamp</b></div>
+              <div class="side-pill active">Board</div>
+              <div class="side-pill">Clients</div>
+              <div class="buffer-card"><b>Buffer connected</b><small>drafts synced</small></div>
+            </aside>
+            <div class="mini-board">
+              <div class="board-head"><b>6 posts</b><button>Sync</button></div>
+              <div class="columns">
+                <div class="col"><span>Drafts</span><article><div class="thumb blue"></div><b>Unassigned draft</b><small># Twitter/X</small></article></div>
+                <div class="col"><span>In review</span><article><b>Behind the bar reel</b><small>Owner code required</small><button>Copy link</button></article><article><div class="thumb amber"></div><b>Market announcement</b></article></div>
+                <div class="col"><span>Changes</span><article class="danger"><b>Weekend hours story</b><small>Hours need fixing</small></article></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="floating-card stamp-card"><span class="material-symbols-outlined fill-icon">verified</span><b>Stamped by Marisol</b><small>Final approval code verified</small></div>
+      </div>
+    </section>
+
+    <section class="pain section-pad narrow">
+      <p class="eyebrow centered"><span></span> Built for the part after the post is drafted</p>
+      <h2>Buffer helps you schedule. Stamp helps you get the “looks good” first.</h2>
+      <p>For creators, freelancers, and social media managers who still get approvals through screenshots, email threads, DMs, and the ancient ritual of “just checking in again.”</p>
+    </section>
+
+    <section id="how" class="steps section-pad">
+      <div class="section-head">
+        <p class="eyebrow"><span></span> How it works</p>
+        <h2>From Buffer draft to final stamp in four steps.</h2>
+      </div>
+      <div class="step-grid">
+        <article><span>01</span><h3>Connect Buffer</h3><p>Pull drafts, needs-approval posts, and scheduled posts into one approval board.</p></article>
+        <article><span>02</span><h3>Assign a client</h3><p>Drop posts into simple client buckets. No CRM swamp. No spreadsheet cosplay.</p></article>
+        <article><span>03</span><h3>Share the room</h3><p>Send one approval room link so the client team can view, comment, or request changes.</p></article>
+        <article><span>04</span><h3>Stamp approval</h3><p>The owner uses a private code for final sign-off, giving you a lightweight paper trail.</p></article>
+      </div>
+    </section>
+
+    <section id="preview" class="workflow section-pad">
+      <div class="section-head split workflow-head">
+        <div>
+          <p class="eyebrow"><span></span> Killer workflow</p>
+          <h2>Approval rooms that feel obvious in five seconds.</h2>
+        </div>
+        <p>The page should sell one loop: Buffer drafts come in, creators assign a client, the client team comments, and the owner uses a code to stamp final approval.</p>
+      </div>
+
+      <div class="workflow-hero-card">
+        <div class="workflow-copy">
+          <span class="step-kicker">Creator dashboard</span>
+          <h3>Sync Buffer. Assign client. Send the room.</h3>
+          <p>Stamp keeps the creator view focused on approval status — not another social calendar, not another CRM, not a tiny spreadsheet wearing a trench coat.</p>
+          <div class="workflow-pills">
+            <span>Drafts</span><span>Needs approval</span><span>Scheduled</span>
+          </div>
+        </div>
+        <div class="board-mock compact-board">
+          <div class="mock-top"><b>Stamp</b><em>6 posts synced</em><button>Sync</button></div>
+          <div class="mock-columns">
+            <div class="mock-col"><small>Drafts</small><article><i class="media media-blue"></i><b>Unassigned draft</b><span>Assign client</span></article></div>
+            <div class="mock-col"><small>In review</small><article><b>Behind the bar reel</b><p>Owner code required</p><span>Copy room</span></article><article><i class="media media-gold"></i><b>Market announcement</b></article></div>
+            <div class="mock-col"><small>Changes</small><article class="mock-red"><b>Weekend hours story</b><p>Hours need fixing</p></article></div>
+            <div class="mock-col"><small>Stamped</small><article class="mock-green"><b>Fall tap list launch</b><p>Approved by Marisol</p></article></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-lane">
+        <article class="lane-card">
+          <span class="lane-number">01</span>
+          <h3>One client approval room</h3>
+          <p>Each client gets one clean room for active posts. No login. No guessing which screenshot is latest.</p>
+          <div class="approval-room-card lane-mock">
+            <div class="room-top"><span>BB</span><b>Barrio Brew Co.</b><em>2 active</em></div>
+            <div class="progress"><i style="width:66%"></i></div>
+            <div class="room-stats"><strong>1</strong><strong>1</strong><strong>1</strong><small>Needs review</small><small>Changes</small><small>Approved</small></div>
+          </div>
+        </article>
+
+        <article class="lane-card">
+          <span class="lane-number">02</span>
+          <h3>Team comments stay open</h3>
+          <p>Anyone with the link can give feedback, request changes, or add context before the owner signs off.</p>
+          <div class="comment-drawer lane-mock">
+            <div class="comment"><b>Jason</b><span>Visual looks good.</span></div>
+            <div class="comment hot"><b>Marisol</b><span>Hours need fixing before Saturday.</span></div>
+            <button>Request changes</button>
+          </div>
+        </article>
+
+        <article class="lane-card">
+          <span class="lane-number">03</span>
+          <h3>Owner code stamps final approval</h3>
+          <p>The whole team can collaborate, but only the code holder can approve. Lightweight permission system. Heavy sigh avoided.</p>
+          <div class="code-card lane-mock"><span>Final approval code</span><b>••••</b><button>Stamp it</button></div>
+        </article>
+      </div>
+
+      <div class="owner-kit-row">
+        <div>
+          <p class="eyebrow"><span></span> Creator handoff</p>
+          <h3>Copy one owner kit and move on with your life.</h3>
+          <p>Stamp gives the creator a shareable room link plus a private owner code. Send both to the right people and keep the approval trail in one place.</p>
+        </div>
+        <div class="owner-kit">
+          <div><small>Approval room</small><b>stamp.link/barrio</b></div>
+          <div><small>Owner code</small><b>4821</b></div>
+          <div><small>Rule</small><b>Team comments. Owner stamps.</b></div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="beta" class="beta section-pad">
+      <div class="beta-card">
+        <div>
+          <p class="eyebrow"><span></span> Private beta</p>
+          <h2>Want to test Stamp with your Buffer workflow?</h2>
+          <p>Join the beta list. I’m looking for Buffer users who manage client approvals, creator collaborations, or posts that need a second set of eyes before they go live.</p>
+        </div>
+        <form class="signup" name="stamp-beta-waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks.html">
+          <input type="hidden" name="form-name" value="stamp-beta-waitlist">
+          <p class="hidden"><label>Don’t fill this out: <input name="bot-field"></label></p>
+          <label>Name<input required name="name" autocomplete="name" placeholder="Your name"></label>
+          <label>Email<input required type="email" name="email" autocomplete="email" placeholder="you@example.com"></label>
+          <label>What best describes you?<select name="role"><option>Creator</option><option>Freelancer</option><option>Agency</option><option>Social media manager</option><option>Small business</option><option>Other</option></select></label>
+          <label>How do approvals work for you today?<textarea name="approval_pain" rows="4" placeholder="Google Docs, screenshots, email threads, Slack, carrier pigeon..."></textarea></label>
+          <button class="btn btn-primary" type="submit">Request beta access</button>
+          <small>Stamp is an independent companion app for Buffer users and is not officially affiliated with Buffer.</small>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="brand"><span class="brand-mark"><span class="material-symbols-outlined fill-icon">verified</span></span><span><strong>Stamp</strong><em>Get it approved before it goes live.</em></span></div>
+    <a href="#top">Back to top</a>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Stamp — Buffer Approvals Without the Chaos</title>
+  <meta name="description" content="Stamp is the approval layer for Buffer creators. Draft in Buffer, send a stamp link, get it approved — no client login needed.">
+  <meta name="robots" content="noindex,nofollow">
+
+  <meta property="og:title" content="Stamp — Buffer Approvals">
+  <meta property="og:description" content="The missing approval layer for Buffer creators.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    body.demo-locked #app-shell,
+    body.demo-locked #bottom-nav,
+    body.demo-locked #toast { display: none !important; }
+    body.demo-locked {
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 20%, rgba(34,211,238,.16), transparent 32%), #18181b;
+      color: #fafafa;
+    }
+    #demo-gate {
+      position: fixed; inset: 0; display: none; align-items: center; justify-content: center;
+      padding: 20px; z-index: 99999; background: radial-gradient(circle at 70% 30%, rgba(34,211,238,.12), transparent 34%), rgba(24,24,27,.98);
+    }
+    body.demo-locked #demo-gate { display: flex; }
+    .demo-gate-card {
+      width: min(420px, 100%); background: #1f1f23; border: 1px solid rgba(255,255,255,.08);
+      border-radius: 20px; padding: 22px; box-shadow: 0 24px 70px rgba(0,0,0,.35);
+      font-family: Space Grotesk, sans-serif;
+    }
+    .demo-gate-logo { width: 38px; height: 38px; border-radius: 11px; background: #22d3ee; color: #18181b; display:flex; align-items:center; justify-content:center; margin-bottom: 16px; }
+    .demo-gate-card h1 { font-size: 24px; line-height: 1; margin: 0 0 8px; letter-spacing: -.03em; }
+    .demo-gate-card p { color: rgba(250,250,250,.55); font-size: 13px; line-height: 1.5; margin: 0 0 16px; }
+    .demo-gate-card input { width: 100%; background: #27272a; color: #fafafa; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; padding: 13px 14px; font: 700 15px Space Grotesk, sans-serif; outline: none; }
+    .demo-gate-card input:focus { border-color: #22d3ee; box-shadow: 0 0 0 3px rgba(34,211,238,.12); }
+    .demo-gate-card button { width: 100%; margin-top: 10px; border: 0; border-radius: 12px; background: #22d3ee; color: #18181b; padding: 13px 14px; font: 800 14px Space Grotesk, sans-serif; cursor: pointer; }
+    .demo-gate-error { min-height: 18px; margin-top: 10px; color: #ef4444; font-size: 12px; }
+    .demo-gate-hint { margin-top: 14px; font-size: 11px !important; color: rgba(250,250,250,.32) !important; }
+  </style>
+</head>
+<body class="demo-locked">
+  
+  <div id="demo-gate">
+    <form class="demo-gate-card" id="demo-gate-form">
+      <div class="demo-gate-logo"><span class="material-symbols-outlined fill-icon" style="font-size:20px">verified</span></div>
+      <h1>Private Stamp lab</h1>
+      <p>This demo uses Ben's live Buffer connection. Enter the private demo code to open the testing build.</p>
+      <input id="demo-gate-code" type="password" autocomplete="off" placeholder="Demo access code" />
+      <button id="demo-gate-button" type="submit">Unlock demo</button>
+      <div class="demo-gate-error" id="demo-gate-error"></div>
+      <p class="demo-gate-hint">Public visitors only see the landing page. The Buffer sync function is protected too.</p>
+    </form>
+  </div>
+  <script>
+    (function() {
+      var storageKey = 'stampDemoKey';
+      function showError(msg) {
+        var el = document.getElementById('demo-gate-error');
+        if (el) el.textContent = msg || '';
+      }
+      function unlock(code) {
+        if (code) localStorage.setItem(storageKey, code);
+        document.body.classList.remove('demo-locked');
+        document.body.classList.add('demo-unlocked');
+        var gate = document.getElementById('demo-gate');
+        if (gate) gate.remove();
+      }
+      function verify(code) {
+        return fetch('/.netlify/functions/demo-auth', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', 'x-stamp-demo-key': code || '' },
+          body: JSON.stringify({ check: true })
+        }).then(function(res) {
+          return res.json().catch(function() { return {}; }).then(function(data) {
+            if (!res.ok || !data.ok) throw new Error(data.error || 'Demo access denied.');
+            return true;
+          });
+        });
+      }
+      window.StampDemoAccess = {
+        getKey: function() { return localStorage.getItem(storageKey) || ''; },
+        clear: function() { localStorage.removeItem(storageKey); location.reload(); }
+      };
+      document.addEventListener('DOMContentLoaded', function() {
+        var saved = localStorage.getItem(storageKey);
+        if (saved) {
+          verify(saved).then(function(){ unlock(saved); }).catch(function() { localStorage.removeItem(storageKey); showError('Saved code expired or does not match. Enter it again.'); });
+        }
+        var form = document.getElementById('demo-gate-form');
+        var input = document.getElementById('demo-gate-code');
+        var button = document.getElementById('demo-gate-button');
+        if (form) {
+          form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var code = (input && input.value || '').trim();
+            if (!code) { showError('Enter the demo code.'); return; }
+            if (button) button.textContent = 'Checking…';
+            verify(code).then(function() { unlock(code); }).catch(function(err) {
+              showError(err.message || 'That code did not work.');
+              if (button) button.textContent = 'Unlock demo';
+            });
+          });
+        }
+      });
+    })();
+  </script>
+
+  <div id="toast"></div>
+
+  <div id="app-shell">
+
+    <!-- Desktop sidebar -->
+    <nav id="desktop-sidebar" style="width:200px;min-width:200px;height:100vh;position:sticky;top:0;background:#121215;border-right:0.5px solid rgba(255,255,255,0.06);flex-direction:column;padding:20px 12px 20px;overflow-y:auto;">
+
+      <!-- Logo -->
+      <div style="display:flex;align-items:center;gap:8px;padding:0 6px;margin-bottom:28px;">
+        <div style="width:28px;height:28px;background:#22d3ee;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <span class="material-symbols-outlined fill-icon" style="font-size:15px;color:#18181b">verified</span>
+        </div>
+        <div>
+          <div style="font-size:16px;font-weight:700;color:#fafafa;letter-spacing:-0.02em;font-family:Space Grotesk,sans-serif">Stamp</div>
+          <div style="font-size:9px;color:rgba(250,250,250,0.25);font-family:Space Grotesk,sans-serif;margin-top:-1px">for Buffer</div>
+        </div>
+      </div>
+
+      <!-- Nav -->
+      <div style="flex:1;display:flex;flex-direction:column;gap:2px;" id="desktop-nav"></div>
+
+      <!-- Buffer status + bottom actions -->
+      <div style="margin-top:16px;display:flex;flex-direction:column;gap:4px;">
+        <div style="background:#1f1f23;border-radius:8px;padding:10px 12px;border:0.5px solid rgba(255,255,255,0.06);margin-bottom:6px">
+          <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px">
+            <div class="status-dot dot-cyan"></div>
+            <span style="font-size:10px;color:rgba(34,211,238,0.7);font-weight:700;font-family:Space Grotesk,sans-serif">Buffer connected</span>
+          </div>
+          <span style="font-size:11px;color:rgba(250,250,250,0.3);font-family:Space Grotesk,sans-serif">Beta mode</span>
+        </div>
+        <button onclick="syncBuffer()" style="background:transparent;border:none;color:rgba(250,250,250,0.3);font-family:Space Grotesk,sans-serif;font-size:11px;cursor:pointer;padding:6px 8px;display:flex;align-items:center;gap:5px;border-radius:6px;" class="hs">
+          <span class="material-symbols-outlined" style="font-size:13px">sync</span>Sync drafts
+        </button>
+        <button onclick="resetDemo()" style="background:transparent;border:none;color:rgba(250,250,250,0.15);font-family:Space Grotesk,sans-serif;font-size:11px;cursor:pointer;padding:6px 8px;display:flex;align-items:center;gap:5px;border-radius:6px;" class="hs">
+          <span class="material-symbols-outlined" style="font-size:13px">refresh</span>Reset demo
+        </button>
+      </div>
+    </nav>
+
+    <div id="page-content"></div>
+  </div>
+
+  <!-- Mobile bottom nav -->
+  <nav id="bottom-nav">
+    <button class="nav-tab active" data-nav="board" onclick="setView('board')">
+      <div class="nav-icon-wrap"><span class="material-symbols-outlined" style="font-size:17px">view_kanban</span></div>
+      Board
+    </button>
+    <button class="nav-tab" data-nav="clients" onclick="setView('clients')">
+      <div class="nav-icon-wrap"><span class="material-symbols-outlined" style="font-size:17px">group</span></div>
+      Clients
+    </button>
+    <button class="nav-tab" data-nav="more" onclick="openMoreSheet()">
+      <div class="nav-icon-wrap"><span class="material-symbols-outlined" style="font-size:17px">more_horiz</span></div>
+      More
+    </button>
+  </nav>
+
+  <!-- 1. Data -->
+  <script src="js/data/demo.js"></script>
+
+  <!-- 2. Core -->
+  <script src="js/core/state.js"></script>
+  <script src="js/core/utils.js"></script>
+
+  <!-- 3. Components -->
+  <script src="js/components/modals.js"></script>
+
+  <!-- 4. Pages -->
+  <script src="js/pages/board.js"></script>
+  <script src="js/pages/post.js"></script>
+  <script src="js/pages/portal.js"></script>
+
+  <!-- 5. Render last -->
+  <script src="js/core/render.js"></script>
+
+</body>
+</html>
